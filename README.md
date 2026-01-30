@@ -8,6 +8,15 @@ Agent skills for AI coding agents (Cursor, Claude Code, Cline, etc.). Skills are
 
 Enforces constrained, opinionated styling patterns for [gluestack-ui v4](https://v4.gluestack.io/): semantic tokens, component usage, spacing scale, dark mode, and composable sub-components. Use when building or refactoring UI with gluestack-ui v4.
 
+**Sub-skills structure for token efficiency:**
+- `gluestack-ui-v4` - Main overview and core principles (156 lines)
+- `gluestack-ui-v4:components` - Component patterns, props, compound components, icons (708 lines)
+- `gluestack-ui-v4:styling` - Colors, spacing, dark mode, variants, tva (490 lines)
+- `gluestack-ui-v4:performance` - Cross-platform, performance, best practices (552 lines)
+- `gluestack-ui-v4:validation` - Validation checklist and anti-patterns (477 lines)
+
+The main skill file is now 90% smaller, consuming far fewer tokens. Sub-skills provide focused guidance when needed.
+
 ## Installation
 
 Install all skills from this repo:
