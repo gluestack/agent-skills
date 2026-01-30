@@ -34,7 +34,19 @@ This skill enforces constrained, opinionated styling patterns for gluestack-ui v
 
 This skill is organized into specialized sub-skills for better token efficiency:
 
-### 1. gluestack-ui-v4:components
+### 1. gluestack-ui-v4:creating-components
+**Use for:** Step-by-step component creation, templates, recipes
+
+Covers:
+- Component creation workflow
+- 6 ready-to-use templates (simple, variants, compound, form, interactive, loading)
+- Common component recipes (profile cards, badges, search, lists)
+- Best practices checklist
+- Quick start guide
+
+**Invoke when:** Creating new components from scratch or need component templates
+
+### 2. gluestack-ui-v4:components
 **Use for:** Component usage, compound patterns, icons, provider setup
 
 Covers:
@@ -46,7 +58,7 @@ Covers:
 
 **Invoke when:** Working with component structure, props, and composition
 
-### 2. gluestack-ui-v4:styling
+### 3. gluestack-ui-v4:styling
 **Use for:** Colors, spacing, dark mode, variants, className
 
 Covers:
@@ -58,7 +70,7 @@ Covers:
 
 **Invoke when:** Styling components, theming, or working with colors and spacing
 
-### 3. gluestack-ui-v4:performance
+### 4. gluestack-ui-v4:performance
 **Use for:** Cross-platform, performance optimization, best practices
 
 Covers:
@@ -72,7 +84,7 @@ Covers:
 
 **Invoke when:** Optimizing performance, ensuring cross-platform compatibility, or following React Native best practices
 
-### 4. gluestack-ui-v4:validation
+### 5. gluestack-ui-v4:validation
 **Use for:** Code review, anti-patterns, validation checklist
 
 Covers:
@@ -148,6 +160,7 @@ Covers:
 
 When working on specific tasks, invoke the appropriate sub-skill for detailed guidance:
 
+- **Creating a new component?** → Use `gluestack-ui-v4:creating-components`
 - **Component structure questions?** → Use `gluestack-ui-v4:components`
 - **Styling and theming questions?** → Use `gluestack-ui-v4:styling`
 - **Performance or cross-platform questions?** → Use `gluestack-ui-v4:performance`
