@@ -1,0 +1,16 @@
+{
+  "name": "agent-skills",
+  "version": "1.0.0",
+  "description": "Agent skills for AI coding agents (Cursor, Claude, etc.). Install with: npx skills add gluestack/agent-skills",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gluestack/agent-skills.git"
+  },
+  "keywords": [
+    "agent-skills",
+    "cursor",
+    "gluestack-ui",
+    "skills"
+  ],
+  "license": "MIT"
+}
