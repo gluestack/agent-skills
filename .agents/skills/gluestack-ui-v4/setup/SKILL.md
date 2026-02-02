@@ -9,6 +9,11 @@ This sub-skill follows the official **gluestack-ui v4** installation guide only.
 
 Use either **CLI** or **Manual** as defined on that page.
 
+## v4 only – do not use v1/v2/v3 packages or docs
+
+- **Never** use or suggest: `@gluestack/styled`, `@gluestack-ui/themed`, or any packages/docs from **gluestack.io** (without the `v4.` subdomain). Those are for v1/v2/v3.
+- **v4** uses: **v4.gluestack.io** docs only; packages such as `@gluestack-ui/core`, `@gluestack-ui/utils`, NativeWind, and components copied into your app (e.g. `GluestackUIProvider`, `icon`, `overlay`, `toast`). Manual installation for v4 is **only** the Manual tab on the v4 Installation page – not any other “manual” or “gluestack styled” guide.
+
 ---
 
 ## CLI
@@ -35,13 +40,17 @@ Ensure these prerequisites are satisfied to use the gluestack-ui CLI:
 2. Run **init** to add **GluestackUIProvider** and essential components (**icon**, **overlay**, **toast**):
 
 ```bash
-npx gluestack-ui init
+npx gluestack-ui@alpha init -y
 ```
 
 3. Your project is then ready to use gluestack-ui components. To add components via CLI, use the **add** command or the [CLI guide](https://v4.gluestack.io/ui/docs/home/getting-started/cli). Example:
 
 ```bash
-npx gluestack-ui add box
+npx gluestack-ui@alpha add box
+```
+or
+```bash
+npx gluestack-ui@alpha add --all -y
 ```
 
 4. If you run into issues during CLI installation, use the **manual installation guide** (Manual tab on the same Installation page).
@@ -50,11 +59,14 @@ npx gluestack-ui add box
 
 ## Manual
 
-For installation without the CLI, follow the **Manual** steps on the official Installation page:
+For installation without the CLI, use **only** the **Manual** tab on the v4 Installation page:
 
-**Manual installation:** [https://v4.gluestack.io/ui/docs/home/getting-started/installation](https://v4.gluestack.io/ui/docs/home/getting-started/installation) (switch to the **Manual** tab on that page).
+- **Manual installation (v4 only):** [https://v4.gluestack.io/ui/docs/home/getting-started/installation](https://v4.gluestack.io/ui/docs/home/getting-started/installation) → switch to the **Manual** tab on that page.
 
-Do not follow manual steps from any other source; only use what is defined there for v4.
+**Do not:**
+
+- Use manual steps from gluestack.io (without `v4.`), or from blog posts, Stack Overflow, or other guides that reference **v1/v2/v3**.
+- Install or suggest **@gluestack/styled**, **@gluestack-ui/themed**, or any v1/v2/v3 packages. v4 does not use those; v4 uses `@gluestack-ui/core@alpha`, `@gluestack-ui/utils@alpha`, NativeWind, and the provider/components from the v4 Manual tab only.
 
 ---
 
@@ -69,5 +81,5 @@ Do not follow manual steps from any other source; only use what is defined there
 
 ## Reference
 
-- **Installation (v4):** [https://v4.gluestack.io/ui/docs/home/getting-started/installation](https://v4.gluestack.io/ui/docs/home/getting-started/installation)
+- **Installation (v4):** [https://v4.gluestack.io/ui/docs/home/getting-started/installation](https://v4.gluestack.io/ui/docs/home/getting-started/installation) — use **CLI** or **Manual** tab here only; ignore gluestack.io (non-v4) and any guides that mention `@gluestack/styled` or v1/v2/v3.
 - **CLI guide:** [https://v4.gluestack.io/ui/docs/home/getting-started/cli](https://v4.gluestack.io/ui/docs/home/getting-started/cli)
