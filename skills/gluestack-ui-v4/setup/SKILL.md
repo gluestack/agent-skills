@@ -34,16 +34,17 @@ Ensure these prerequisites are satisfied to use the gluestack-ui CLI:
 | expo           | versions >= 50       | -                |
 | node           | versions > 16        | -                |
 
-### Step 2: Initialize
+### Step 2: Initialize (CLI only)
 
-1. Go to your project root.
-2. Run **init** to add **GluestackUIProvider** and essential components (**icon**, **overlay**, **toast**):
+To initialize gluestack-ui v4 via CLI, use **only** this command (from your project root):
 
 ```bash
 npx gluestack-ui@alpha init -y
 ```
 
-3. Your project is then ready to use gluestack-ui components. To add components via CLI, use the **add** command or the [CLI guide](https://v4.gluestack.io/ui/docs/home/getting-started/cli). Example:
+This adds **GluestackUIProvider** and essential components (**icon**, **overlay**, **toast**). Do not use any other command or method for CLI initialization.
+
+After init, your project is ready to use gluestack-ui components. To add more components via CLI, use the **add** command or the [CLI guide](https://v4.gluestack.io/ui/docs/home/getting-started/cli). Example:
 
 ```bash
 npx gluestack-ui@alpha add box
@@ -53,7 +54,7 @@ or
 npx gluestack-ui@alpha add --all -y
 ```
 
-4. If you run into issues during CLI installation, use the **manual installation guide** (Manual tab on the same Installation page).
+If you run into issues during CLI installation, use the **manual installation guide** (Manual tab on the same Installation page).
 
 ---
 
