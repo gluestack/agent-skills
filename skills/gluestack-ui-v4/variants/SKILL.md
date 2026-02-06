@@ -641,13 +641,23 @@ const avatarStyles = tva({
    }
    ```
 
-5. **Use semantic tokens in variant styles**
+5. **Use ONLY semantic tokens in variant styles - NO EXCEPTIONS**
    ```tsx
-   // ✅ GOOD: Semantic tokens
+   // ✅ CORRECT: Semantic tokens with alpha values
    success: 'bg-primary/10 text-primary border-primary/20'
+   error: 'bg-destructive/10 text-destructive border-destructive/20'
+   muted: 'bg-muted text-muted-foreground border-border'
 
-   // ❌ BAD: Raw colors
+   // ❌ PROHIBITED: Numbered color tokens
    success: 'bg-green-100 text-green-800 border-green-200'
+   error: 'bg-red-100 text-red-800 border-red-200'
+
+   // ❌ PROHIBITED: Generic tokens
+   muted: 'bg-neutral-100 text-neutral-600 border-neutral-300'
+   muted: 'bg-gray-100 text-gray-600 border-gray-300'
+
+   // ❌ PROHIBITED: Typography tokens
+   text: 'text-typography-900'
    ```
 
 ### ❌ Don'ts
@@ -692,20 +702,93 @@ const avatarStyles = tva({
    })
    ```
 
+## CRITICAL: Semantic Tokens in Variants
+
+**ALL variant styles MUST use ONLY semantic tokens. This is NON-NEGOTIABLE.**
+
+### Correct Variant Token Usage
+
+```tsx
+// ✅ CORRECT: All colors are semantic tokens
+const badgeStyles = tva({
+  base: 'inline-flex items-center rounded-full px-3 py-1',
+  variants: {
+    variant: {
+      default: 'bg-muted text-muted-foreground',
+      primary: 'bg-primary/10 text-primary border border-primary/20',
+      success: 'bg-primary/10 text-primary border border-primary/20',
+      error: 'bg-destructive/10 text-destructive border border-destructive/20',
+      warning: 'bg-accent/10 text-accent-foreground border border-accent/20',
+    },
+  },
+});
+```
+
+### Prohibited Variant Token Usage
+
+```tsx
+// ❌ PROHIBITED: Using numbered color tokens
+const badgeStyles = tva({
+  variants: {
+    variant: {
+      success: 'bg-green-100 text-green-800 border-green-200', // ❌ NO
+      error: 'bg-red-100 text-red-800 border-red-200',         // ❌ NO
+      warning: 'bg-yellow-100 text-yellow-800',                // ❌ NO
+    },
+  },
+});
+
+// ❌ PROHIBITED: Using generic tokens
+const badgeStyles = tva({
+  variants: {
+    variant: {
+      default: 'bg-neutral-100 text-neutral-700',              // ❌ NO
+      muted: 'bg-gray-100 text-gray-600',                      // ❌ NO
+    },
+  },
+});
+
+// ❌ PROHIBITED: Using typography tokens
+const textStyles = tva({
+  variants: {
+    variant: {
+      heading: 'text-typography-900',                          // ❌ NO
+      body: 'text-typography-700',                             // ❌ NO
+    },
+  },
+});
+```
+
+### Token Replacement Guide for Variants
+
+| Prohibited Pattern | Use Instead |
+| ------------------ | ----------- |
+| `bg-green-100 text-green-800` | `bg-primary/10 text-primary` |
+| `bg-red-100 text-red-800` | `bg-destructive/10 text-destructive` |
+| `bg-yellow-100 text-yellow-800` | `bg-accent/10 text-accent-foreground` |
+| `bg-blue-100 text-blue-800` | `bg-primary/10 text-primary` |
+| `bg-neutral-100 text-neutral-700` | `bg-muted text-muted-foreground` |
+| `bg-gray-100 text-gray-900` | `bg-muted text-foreground` |
+| `text-typography-900` | `text-foreground` |
+| `text-typography-600` | `text-muted-foreground` |
+| `border-gray-300` | `border-border` |
+
 ## Validation Checklist for Variants
 
 When creating variants, verify:
 
+- [ ] **CRITICAL: NO prohibited tokens** - No `typography-*`, `neutral-*`, `gray-*`, `slate-*`, numbered colors
+- [ ] **All colors are semantic tokens** - Every color uses semantic tokens from the approved list
+- [ ] **Alpha values instead of opacity** - Uses `/70`, `/90` instead of `opacity-*` utilities
 - [ ] Variant names are semantic (not color names)
 - [ ] Default variants specified
-- [ ] Uses semantic tokens (no raw colors)
-- [ ] Spacing uses scale values
+- [ ] Spacing uses scale values (no arbitrary values)
 - [ ] TypeScript types match variant options
 - [ ] className override supported with `class` parameter
 - [ ] Parent variants used for child components (if applicable)
 - [ ] Compound variants for complex combinations (if needed)
 - [ ] Data attributes for interactive states
-- [ ] Tested with dark mode
+- [ ] Tested with dark mode (semantic tokens ensure compatibility)
 - [ ] Documentation/comments for non-obvious variants
 
 ## Recipe: Converting Repeated Styles to Variants
