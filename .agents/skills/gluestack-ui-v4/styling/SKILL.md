@@ -9,19 +9,43 @@ This sub-skill focuses on styling patterns, theming, colors, spacing, dark mode,
 
 ## Rule 3: Semantic Color Tokens Over Raw Values (v4)
 
+**CRITICAL**: You MUST use only Gluestack v4 semantic tokens. Generic tokens like `typography-*`, `neutral-*`, `gray-*`, `slate-*`, or any numbered color tokens (`red-500`, `blue-600`, etc.) are **STRICTLY PROHIBITED**.
+
+### Prohibited Token Patterns
+
+**NEVER use these token patterns:**
+
+| Prohibited Pattern | Why It's Wrong | Use Instead |
+| ------------------ | -------------- | ----------- |
+| `typography-*` | Generic, not semantic | `text-foreground`, `text-muted-foreground`, `text-card-foreground` |
+| `neutral-*` | Generic, not semantic | `text-foreground`, `bg-background`, `bg-muted` |
+| `gray-*`, `slate-*` | Raw color, not semantic | `text-muted-foreground`, `bg-muted`, `border-border` |
+| `text-red-500`, `bg-red-600` | Numbered colors, not semantic | `text-destructive`, `bg-destructive` |
+| `text-green-500`, `bg-green-600` | Numbered colors, not semantic | `text-primary` (for success states) |
+| `text-blue-500`, `bg-blue-600` | Numbered colors, not semantic | `text-primary`, `bg-primary` |
+| `border-gray-200` | Raw color, not semantic | `border-border` |
+| `#DC2626`, `#3b82f6` (inline) | Hex values, not semantic | `text-destructive`, `bg-primary` |
+| `bg-white`, `bg-black` | Raw colors, not semantic | `bg-background`, `text-foreground` |
+| `text-opacity-*` | Opacity utilities | Use alpha values: `text-foreground/70` |
+
+### Correct Semantic Token Replacement Guide
+
 Use Gluestack v4 semantic tokens instead of raw Tailwind colors or arbitrary values:
 
-| Instead of       | Use                         |
-| ---------------- | --------------------------- |
-| text-red-500     | text-destructive            |
-| text-green-500   | text-success (if available) |
-| text-blue-500    | text-primary                |
-| text-gray-500    | text-muted-foreground       |
-| bg-blue-600      | bg-primary                  |
-| border-gray-200  | border-border               |
-| #DC2626 (inline) | text-destructive            |
-| bg-white         | bg-background               |
-| text-black       | text-foreground             |
+| Instead of | Use |
+| ---------- | --- |
+| text-red-500 | text-destructive |
+| text-green-500 | text-primary (for success) |
+| text-blue-500 | text-primary |
+| text-gray-500, text-neutral-500 | text-muted-foreground |
+| text-gray-900, text-typography-900 | text-foreground |
+| bg-blue-600 | bg-primary |
+| bg-gray-100, bg-neutral-100 | bg-muted |
+| bg-gray-50 | bg-background |
+| border-gray-200, border-neutral-200 | border-border |
+| #DC2626 (inline) | text-destructive |
+| bg-white | bg-background |
+| text-black | text-foreground |
 
 ### Available Semantic Token Categories (v4)
 
@@ -46,15 +70,39 @@ Use Gluestack v4 semantic tokens instead of raw Tailwind colors or arbitrary val
 | accent               | Accent highlights                        | `bg-accent`                          |
 | accent-foreground    | Text on accent backgrounds               | `text-accent-foreground`             |
 
+### CRITICAL: Why Semantic Tokens Are Mandatory
+
+**Semantic tokens are NOT optional**. They are required for:
+
+1. **Theme Consistency** - Tokens automatically adapt to light/dark modes
+2. **Maintainability** - Change theme once, update everywhere
+3. **Intent Expression** - `text-destructive` communicates purpose, `text-red-500` doesn't
+4. **Future-Proofing** - Theme changes don't require code updates
+5. **Accessibility** - Tokens ensure proper contrast ratios
+
+**If you use generic tokens (`typography-*`, `neutral-*`) or numbered colors (`gray-500`, `blue-600`), the component will:**
+- Break in dark mode
+- Fail to match the design system
+- Create maintenance debt
+- Violate gluestack-ui v4 design principles
+
 ### Alpha Values
 
 All color tokens support alpha values using the `/` syntax:
 
 ```tsx
-// Correct: Using alpha values
+// ✅ CORRECT: Using alpha values with semantic tokens
 <Box className="bg-primary/90" />
 <Text className="text-foreground/70" />
 <Box className="border-border/80" />
+
+// ❌ INCORRECT: Never use opacity utilities
+<Text className="text-gray-900 opacity-70" />
+<Box className="bg-blue-500 bg-opacity-90" />
+
+// ✅ CORRECT: Alpha values, not opacity utilities
+<Text className="text-foreground/70" />
+<Box className="bg-primary/90" />
 ```
 
 ### Correct Pattern
@@ -76,17 +124,36 @@ All color tokens support alpha values using the `/` syntax:
 ### Incorrect Pattern
 
 ```tsx
+// ❌ PROHIBITED: Numbered color tokens
 <Box className="bg-red-500">
   <Text className="text-white">Error message</Text>
 </Box>
 
+// ❌ PROHIBITED: Inline hex values
 <Box style={{ backgroundColor: '#DC2626' }}>
   <Text style={{ color: 'green' }}>Success!</Text>
 </Box>
 
+// ❌ PROHIBITED: Arbitrary color values
 <Box className="bg-[#3b82f6]">
   <Text className="text-[#ffffff]">Primary action</Text>
 </Box>
+
+// ❌ PROHIBITED: Generic tokens (typography, neutral)
+<Text className="text-typography-900">Heading</Text>
+<Box className="bg-neutral-100">
+  <Text className="text-neutral-600">Description</Text>
+</Box>
+
+// ❌ PROHIBITED: Gray/Slate color scales
+<Text className="text-gray-700">Content</Text>
+<Box className="bg-slate-100 border-gray-300">
+  <Text className="text-gray-900">Text</Text>
+</Box>
+
+// ❌ PROHIBITED: Opacity utilities instead of alpha
+<Text className="text-black opacity-70">Muted text</Text>
+<Box className="bg-blue-600 bg-opacity-90">Content</Box>
 ```
 
 ## Rule 3: No Inline Styles
@@ -392,16 +459,74 @@ const Child = () => {
 
 ## Anti-Patterns to Avoid
 
+### ❌ Don't: Use Generic or Non-Semantic Tokens
+
+**STRICTLY PROHIBITED** - These token patterns are never allowed:
+
+```tsx
+// ❌ PROHIBITED: Generic typography tokens
+<Text className="text-typography-900">Heading</Text>
+<Text className="text-typography-700">Body</Text>
+<Text className="text-typography-500">Muted</Text>
+
+// ✅ CORRECT: Semantic tokens
+<Text className="text-foreground">Heading</Text>
+<Text className="text-foreground">Body</Text>
+<Text className="text-muted-foreground">Muted</Text>
+
+// ❌ PROHIBITED: Neutral color tokens
+<Box className="bg-neutral-100" />
+<Text className="text-neutral-600" />
+<Box className="border-neutral-300" />
+
+// ✅ CORRECT: Semantic tokens
+<Box className="bg-muted" />
+<Text className="text-muted-foreground" />
+<Box className="border-border" />
+
+// ❌ PROHIBITED: Gray/Slate color scales
+<Box className="bg-gray-50" />
+<Text className="text-gray-900" />
+<Box className="border-gray-200" />
+<Text className="text-slate-700" />
+
+// ✅ CORRECT: Semantic tokens
+<Box className="bg-background" />
+<Text className="text-foreground" />
+<Box className="border-border" />
+<Text className="text-foreground" />
+
+// ❌ PROHIBITED: Numbered color tokens
+<Box className="bg-blue-600" />
+<Text className="text-red-500" />
+<Box className="border-green-400" />
+
+// ✅ CORRECT: Semantic tokens
+<Box className="bg-primary" />
+<Text className="text-destructive" />
+<Box className="border-primary" />
+```
+
 ### ❌ Don't: Use Raw Color Values
 
 ```tsx
-// ❌ Incorrect
+// ❌ PROHIBITED: Arbitrary hex values
 <Box className="bg-[#3b82f6]" />
-<Text className="text-red-500" />
+<Text className="text-[#DC2626]" />
+<Box style={{ backgroundColor: '#f3f4f6' }} />
 
-// ✅ Correct
+// ✅ CORRECT: Semantic tokens
 <Box className="bg-primary" />
 <Text className="text-destructive" />
+<Box className="bg-muted" />
+
+// ❌ PROHIBITED: Named colors
+<Text style={{ color: 'red' }} />
+<Box style={{ backgroundColor: 'white' }} />
+
+// ✅ CORRECT: Semantic tokens
+<Text className="text-destructive" />
+<Box className="bg-background" />
 ```
 
 ### ❌ Don't: Use Inline Styles When className Works
@@ -472,6 +597,89 @@ const buttonStyles = tva({
     </Text>
   </Box>
 </Box>
+```
+
+## Token Usage Validation
+
+### How to Validate Token Usage
+
+Before committing any code, verify that you're using ONLY semantic tokens:
+
+**✅ ALLOWED Token Patterns:**
+- `text-foreground`, `text-muted-foreground`, `text-card-foreground`
+- `text-primary`, `text-primary-foreground`
+- `text-secondary`, `text-secondary-foreground`
+- `text-destructive`, `text-accent`, `text-accent-foreground`
+- `bg-background`, `bg-card`, `bg-muted`, `bg-popover`
+- `bg-primary`, `bg-secondary`, `bg-destructive`, `bg-accent`
+- `border-border`, `border-input`, `ring-ring`
+- Alpha values: `text-foreground/70`, `bg-primary/90`, `border-border/50`
+
+**❌ PROHIBITED Token Patterns:**
+- ❌ `typography-*` (typography-900, typography-700, etc.)
+- ❌ `neutral-*` (neutral-100, neutral-600, etc.)
+- ❌ `gray-*` (gray-50, gray-900, etc.)
+- ❌ `slate-*` (slate-700, slate-200, etc.)
+- ❌ Numbered colors: `red-500`, `blue-600`, `green-400`
+- ❌ Arbitrary values: `[#3b82f6]`, `[#DC2626]`
+- ❌ Named colors: `'red'`, `'white'`, `'black'`
+- ❌ Opacity utilities: `opacity-70`, `bg-opacity-90`
+
+### Token Validation Checklist
+
+Before submitting code, verify:
+
+- [ ] **No `typography-*` tokens** - Replace with `text-foreground` or `text-muted-foreground`
+- [ ] **No `neutral-*` tokens** - Replace with semantic equivalents
+- [ ] **No `gray-*` or `slate-*` tokens** - Replace with semantic equivalents
+- [ ] **No numbered color tokens** - Replace with semantic tokens
+- [ ] **No arbitrary color values** - Replace with semantic tokens
+- [ ] **No inline style colors** - Use className with semantic tokens
+- [ ] **No opacity utilities** - Use alpha values instead (`/70`, `/90`)
+- [ ] **All colors are semantic** - Every color token expresses intent
+- [ ] **Dark mode compatible** - Semantic tokens work in both themes
+- [ ] **Reviewed token table** - Verified against available semantic tokens list
+
+### Common Token Violations and Fixes
+
+```tsx
+// ❌ VIOLATION: typography tokens
+<Text className="text-typography-900">Title</Text>
+<Text className="text-typography-600">Description</Text>
+
+// ✅ FIX: Use semantic tokens
+<Text className="text-foreground">Title</Text>
+<Text className="text-muted-foreground">Description</Text>
+
+// ❌ VIOLATION: neutral tokens
+<Box className="bg-neutral-50 border-neutral-200">
+  <Text className="text-neutral-700">Content</Text>
+</Box>
+
+// ✅ FIX: Use semantic tokens
+<Box className="bg-background border-border">
+  <Text className="text-foreground">Content</Text>
+</Box>
+
+// ❌ VIOLATION: gray scale tokens
+<Box className="bg-gray-100">
+  <Text className="text-gray-900">Heading</Text>
+  <Text className="text-gray-500">Subtitle</Text>
+</Box>
+
+// ✅ FIX: Use semantic tokens
+<Box className="bg-muted">
+  <Text className="text-foreground">Heading</Text>
+  <Text className="text-muted-foreground">Subtitle</Text>
+</Box>
+
+// ❌ VIOLATION: Numbered colors with opacity
+<Text className="text-blue-600 opacity-70">Link</Text>
+<Box className="bg-red-500 bg-opacity-10">Alert</Box>
+
+// ✅ FIX: Use semantic tokens with alpha
+<Text className="text-primary/70">Link</Text>
+<Box className="bg-destructive/10">Alert</Box>
 ```
 
 ## Escalation Guidance

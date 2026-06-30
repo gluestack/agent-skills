@@ -657,6 +657,55 @@ import Svg, { Path } from "react-native-svg";
 </Svg>;
 ```
 
+## CRITICAL: Semantic Token Usage in Components
+
+**When using any component, you MUST use ONLY semantic color tokens.**
+
+### ✅ CORRECT: Semantic Tokens
+
+```tsx
+// ✅ Text colors
+<Text className="text-foreground">Main content</Text>
+<Text className="text-muted-foreground">Secondary text</Text>
+<Text className="text-destructive">Error message</Text>
+
+// ✅ Background colors
+<Box className="bg-background">Main area</Box>
+<Box className="bg-card">Card content</Box>
+<Box className="bg-primary">Primary action</Box>
+
+// ✅ Border colors
+<Box className="border border-border">Standard border</Box>
+<Input className="border-input">Input field</Input>
+
+// ✅ Alpha values
+<Box className="bg-primary/10">Subtle background</Box>
+<Text className="text-foreground/70">Muted text</Text>
+```
+
+### ❌ PROHIBITED: Generic and Numbered Tokens
+
+```tsx
+// ❌ NEVER use typography tokens
+<Text className="text-typography-900">Heading</Text>
+<Text className="text-typography-600">Description</Text>
+
+// ❌ NEVER use neutral tokens
+<Box className="bg-neutral-100">Card</Box>
+<Text className="text-neutral-700">Text</Text>
+
+// ❌ NEVER use gray/slate tokens
+<Box className="bg-gray-50">Background</Box>
+<Text className="text-gray-900">Content</Text>
+
+// ❌ NEVER use numbered colors
+<Box className="bg-blue-600">Primary</Box>
+<Text className="text-red-500">Error</Text>
+
+// ❌ NEVER use opacity utilities
+<Text className="text-black opacity-70">Muted</Text>
+```
+
 ## Common Form Patterns
 
 ```tsx

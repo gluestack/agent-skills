@@ -1,11 +1,11 @@
 ---
-name: gluestack-ui-v4:variants
-description: Guide for creating custom variants for gluestack-ui v4 components - covers tva usage, extending components, variant patterns, and customization strategies.
+name: gluestack-ui-v5:variants
+description: Guide for creating custom variants for gluestack-ui v5 components - covers tva usage, extending components, variant patterns, and customization strategies.
 ---
 
-# Gluestack UI v4 - Creating Component Variants
+# Gluestack UI v5 — Creating Component Variants
 
-This sub-skill focuses on creating custom variants for existing gluestack-ui v4 components, allowing you to extend the design system with project-specific styling patterns while maintaining consistency and type safety.
+This sub-skill focuses on creating custom variants for existing gluestack-ui v5 components, allowing you to extend the design system with project-specific styling patterns while maintaining consistency and type safety.
 
 ## When to Create a Variant
 
@@ -882,5 +882,5 @@ const StatusPill = ({ status, children }: StatusPillProps) => {
 ## Reference
 
 - **tva Documentation**: https://www.tailwind-variants.org/
-- **Gluestack v4 Docs**: https://v4.gluestack.io/ui/docs
-- **Component Examples**: `https://v4.gluestack.io/ui/docs/components/${componentName}/`
+- **Gluestack v5 Docs**: https://gluestack.io/ui/docs
+- **Component Examples**: `https://gluestack.io/ui/docs/components/${componentName}/`

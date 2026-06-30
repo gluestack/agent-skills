@@ -1,15 +1,15 @@
 ---
-name: gluestack-ui-v4:performance
-description: Performance optimization and cross-platform patterns for gluestack-ui v4 - covers native/web compatibility, TypeScript, memoization, animations, and best practices.
+name: gluestack-ui-v5:performance
+description: Performance optimization and cross-platform patterns for gluestack-ui v5 - covers NativeWind v5 / UniWind, TypeScript, memoization, animations, and best practices.
 ---
 
-# Gluestack UI v4 - Performance & Cross-Platform
+# Gluestack UI v5 — Performance & Cross-Platform
 
-This sub-skill focuses on performance optimization, cross-platform compatibility, and React Native best practices for gluestack-ui v4.
+This sub-skill focuses on performance optimization, cross-platform compatibility, and React Native best practices for gluestack-ui v5 (NativeWind v5 / UniWind).
 
 ## Rule 12: Cross-Platform Rendering (Native & Web)
 
-Gluestack UI v4 components are designed to work seamlessly on both React Native (iOS/Android) and Web platforms. Always use Gluestack wrapper components instead of direct React Native imports to ensure cross-platform compatibility.
+Gluestack UI v5 components are designed to work seamlessly on both React Native (iOS/Android) and Web platforms. Always use Gluestack wrapper components instead of direct React Native imports to ensure cross-platform compatibility.
 
 ### Critical Rule: Always Use Gluestack Wrappers
 
@@ -545,8 +545,24 @@ import { useSharedValue } from 'react-native-reanimated';
 const animValue = useSharedValue(0);
 ```
 
+## v5-Specific Performance Notes
+
+### NativeWind v5
+
+- **Pin `lightningcss` to exactly `1.30.1`** in `package.json` `overrides` and `resolutions`. Mismatched versions cause CSS transformation errors and build failures.
+- Tailwind v4 uses **CSS-first configuration** via `global.css` — there is no `tailwind.config.js` overhead.
+- `@tailwindcss/postcss` handles CSS processing; keep the `postcss.config.js` file minimal.
+
+### UniWind
+
+- **No PostCSS / lightningcss** — UniWind processes CSS at Metro/Babel time, eliminating the PostCSS build step entirely. This can reduce build times for Expo projects.
+- Uses `:where()` selectors for theme scoping, which have zero CSS specificity — no specificity wars between themes.
+- Consider UniWind for simpler Expo-only projects where build-step reduction matters.
+
 ## Reference
 
 - **Reanimated Documentation**: https://docs.swmansion.com/react-native-reanimated/
 - **React Native Performance**: https://reactnative.dev/docs/performance
 - **Expo Router**: https://docs.expo.dev/router/introduction/
+- **NativeWind v5**: https://www.nativewind.dev/
+

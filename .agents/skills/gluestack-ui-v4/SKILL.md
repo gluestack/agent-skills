@@ -11,7 +11,7 @@ This skill enforces constrained, opinionated styling patterns for gluestack-ui v
 
 1. **Gluestack components over React Native primitives** - Gluestack wraps RN with theming, accessibility, and cross-platform consistency
 2. **Component props over className utilities** - Use built-in props (size, variant, space) instead of className when available
-3. **Semantic tokens over arbitrary values** - Tokens encode intent, not just appearance
+3. **Semantic tokens ONLY - NO EXCEPTIONS** - NEVER use generic tokens (`typography-*`, `neutral-*`, `gray-*`) or numbered colors (`red-500`, `blue-600`). ONLY use semantic tokens (`text-foreground`, `bg-primary`, `border-border`, etc.) with optional alpha values
 4. **className over inline styles** - Inline styles bypass optimization and consistency
 5. **Spacing scale over pixel values** - Arbitrary values create unsustainable exceptions
 6. **Copy-paste philosophy** - Components are copied into your codebase, not installed as dependencies
@@ -167,7 +167,7 @@ Covers:
 
 1. **Always use Gluestack components** instead of React Native primitives
 2. **Use component props** (space, size, variant) instead of className when available
-3. **Use semantic tokens** for colors (text-primary, bg-card, etc.)
+3. **CRITICAL: ONLY semantic tokens for colors** - NEVER use `typography-*`, `neutral-*`, `gray-*`, `slate-*`, or numbered colors (`red-500`, `blue-600`). ONLY use semantic tokens: `text-foreground`, `text-muted-foreground`, `bg-primary`, `bg-card`, `border-border`, etc. with optional alpha values (`/70`, `/90`)
 4. **No inline styles** unless absolutely necessary
 5. **Follow spacing scale** (0, 0.5, 1, 2, 3, 4, etc.) - no arbitrary values
 6. **Compound components required** - ButtonText, InputSlot, FormControlLabel, etc.

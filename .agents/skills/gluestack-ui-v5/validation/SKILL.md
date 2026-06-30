@@ -1,11 +1,11 @@
 ---
-name: gluestack-ui-v4:validation
-description: Validation checklist and anti-patterns for gluestack-ui v4 - use for code review, checking implementation quality, and identifying common mistakes.
+name: gluestack-ui-v5:validation
+description: Validation checklist and anti-patterns for gluestack-ui v5 - use for code review, checking implementation quality, and identifying common mistakes including Tailwind v4-specific issues.
 ---
 
-# Gluestack UI v4 - Validation & Anti-Patterns
+# Gluestack UI v5 — Validation & Anti-Patterns
 
-This sub-skill focuses on validating implementations, identifying anti-patterns, and ensuring code quality for gluestack-ui v4.
+This sub-skill focuses on validating implementations, identifying anti-patterns, and ensuring code quality for gluestack-ui v5 (Tailwind CSS v4, NativeWind v5 / UniWind).
 
 ## Validation Checklist
 
@@ -13,7 +13,7 @@ When reviewing code, check for:
 
 ### Component Usage
 
-- [ ] Component usage verified against official v4 docs at `https://v4.gluestack.io/ui/docs/components/${componentName}/`
+- [ ] Component usage verified against official v5 docs at `https://gluestack.io/ui/docs/components/${componentName}/`
 - [ ] All React Native primitives replaced with Gluestack components
 - [ ] Components imported from local `@/components/ui/` directory
 - [ ] GluestackUIProvider wraps the app
@@ -389,6 +389,10 @@ animValue.value = withTiming(100, { duration: 300 });
 | Direct react-native imports | Breaks cross-platform compatibility | Use Gluestack wrappers |
 | ScrollView for long lists | Poor performance | Use FlatList |
 | Animated API | Janky animations | Use Reanimated worklets |
+| **Still using `tailwind.config.js` in v5** | **Tailwind v4 is CSS-first; config ignored** | **Delete it, use `global.css` `@theme inline`** |
+| **Missing `lightningcss` pin (NativeWind v5)** | **Build errors, CSS mismatch** | **Pin `lightningcss@1.30.1` in overrides/resolutions** |
+| **Using `@tailwind base/components/utilities`** | **Tailwind v4 uses `@import` syntax** | **Use `@import "tailwindcss/..."`** |
+| **Missing `postcss.config.js` (NativeWind v5)** | **CSS not processed** | **Create with `@tailwindcss/postcss` plugin** |
 
 ## Critical Issues (Must Fix Immediately)
 
@@ -509,15 +513,23 @@ When a design request cannot be satisfied with existing patterns:
 
 ### Step 3: Add to Design System
 
-If truly needed, add token to `gluestack-ui-provider/config.ts`:
+If truly needed, add the CSS custom property to `global.css` `@layer theme` and map it in `@theme inline`, then update `gluestack-ui-provider/config.ts`:
 
 ```ts
-// Add new semantic token
+// 1. Add to global.css @layer theme
+// --success: 34 197 94;
+// --success-foreground: 255 255 255;
+
+// 2. Map in global.css @theme inline
+// --color-success: rgb(var(--success));
+// --color-success-foreground: rgb(var(--success-foreground));
+
+// 3. Update provider config
 export const config = {
   tokens: {
     colors: {
-      success: '#22c55e',
-      'success-foreground': '#ffffff',
+      success: '34 197 94',
+      'success-foreground': '255 255 255',
     },
   },
 };
@@ -557,5 +569,5 @@ Use this mental checklist when reviewing code:
 
 ## Reference
 
-- **Official Documentation**: https://v4.gluestack.io/ui/docs
-- **Component Verification**: `https://v4.gluestack.io/ui/docs/components/${componentName}/`
+- **Official Documentation**: https://gluestack.io/ui/docs
+- **Component Verification**: `https://gluestack.io/ui/docs/components/${componentName}/`

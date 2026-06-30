@@ -1,15 +1,15 @@
 ---
-name: gluestack-ui-v4:styling
-description: Styling patterns for gluestack-ui v4 - covers semantic tokens, spacing, dark mode, variants with tva, and className merging.
+name: gluestack-ui-v5:styling
+description: Styling patterns for gluestack-ui v5 - covers semantic tokens, spacing, dark mode (NativeWind v5 + UniWind), variants with tva, CSS variables, and className merging.
 ---
 
-# Gluestack UI v4 - Styling Patterns
+# Gluestack UI v5 — Styling Patterns
 
-This sub-skill focuses on styling patterns, theming, colors, spacing, dark mode, and variant management for gluestack-ui v4.
+This sub-skill focuses on styling patterns, theming, colors, spacing, dark mode, and variant management for gluestack-ui v5 (Tailwind v4 CSS-first).
 
-## Rule 3: Semantic Color Tokens Over Raw Values (v4)
+## Rule 3: Semantic Color Tokens Over Raw Values (v5)
 
-**CRITICAL**: You MUST use only Gluestack v4 semantic tokens. Generic tokens like `typography-*`, `neutral-*`, `gray-*`, `slate-*`, or any numbered color tokens (`red-500`, `blue-600`, etc.) are **STRICTLY PROHIBITED**.
+**CRITICAL**: You MUST use only Gluestack v5 semantic tokens. In v5, these tokens are defined as CSS custom properties in `global.css` via `@layer theme` and mapped to Tailwind utilities via `@theme inline` — not in a `tailwind.config.js`. Generic tokens like `typography-*`, `neutral-*`, `gray-*`, `slate-*`, or any numbered color tokens (`red-500`, `blue-600`, etc.) are **STRICTLY PROHIBITED**.
 
 ### Prohibited Token Patterns
 
@@ -30,7 +30,7 @@ This sub-skill focuses on styling patterns, theming, colors, spacing, dark mode,
 
 ### Correct Semantic Token Replacement Guide
 
-Use Gluestack v4 semantic tokens instead of raw Tailwind colors or arbitrary values:
+Use Gluestack v5 semantic tokens instead of raw Tailwind colors or arbitrary values:
 
 | Instead of | Use |
 | ---------- | --- |
@@ -47,7 +47,7 @@ Use Gluestack v4 semantic tokens instead of raw Tailwind colors or arbitrary val
 | bg-white | bg-background |
 | text-black | text-foreground |
 
-### Available Semantic Token Categories (v4)
+### Available Semantic Token Categories (v5)
 
 | Token                | Purpose                                  | Usage Example                        |
 | -------------------- | ---------------------------------------- | ------------------------------------ |
@@ -84,7 +84,7 @@ Use Gluestack v4 semantic tokens instead of raw Tailwind colors or arbitrary val
 - Break in dark mode
 - Fail to match the design system
 - Create maintenance debt
-- Violate gluestack-ui v4 design principles
+- Violate gluestack-ui v5 design principles
 
 ### Alpha Values
 
@@ -162,11 +162,13 @@ Avoid inline `style` props when className can achieve the same result.
 
 ### Resolution Hierarchy (in order of preference)
 
-1. **className utilities** - Use existing Tailwind/NativeWind classes
-2. **Gluestack component variants** - Use built-in component variants
-3. **tva (Tailwind Variant Authority)** - Create reusable variant patterns
-4. **NativeWind interop** - Enable className on third-party components
-5. **Inline styles** - Only as absolute last resort with documented justification
+1. **Component props** - Use built-in props (size, variant, space)
+2. **className utilities** - Use existing Tailwind/NativeWind classes
+3. **Gluestack component variants** - Use built-in component variants
+4. **CSS variables (`@theme inline`)** - Tailwind v4 auto-resolves `@theme inline` tokens into utility classes (`bg-primary`, `text-foreground`, etc.)
+5. **tva (Tailwind Variant Authority)** - Create reusable variant patterns
+6. **NativeWind interop** - Enable className on third-party components
+7. **Inline styles** - Only as absolute last resort with documented justification
 
 ### Correct Pattern
 
@@ -276,9 +278,14 @@ Use only values from the standard spacing scale. Arbitrary values create mainten
 <Box style={{ padding: 13, margin: 27 }} />
 ```
 
-## Rule 5: Dark Mode Using CSS Variables
+## Rule 5: Dark Mode in v5 (NativeWind v5 + UniWind)
 
-Use the `dark:` prefix for dark mode support. Gluestack v4 uses CSS variables that automatically adapt to light/dark themes.
+In v5, Tailwind v4 uses CSS-first configuration with `@layer theme` custom properties in `global.css`. The `dark:` prefix still works identically for all className usage. However, the underlying implementation differs by engine:
+
+- **NativeWind v5**: Uses `@media (prefers-color-scheme: dark)` in `global.css` for system-level theming, plus explicit `.dark`/`.light` class selectors for web overrides. Theme switching via `Appearance.setColorScheme()`.
+- **UniWind**: Uses `:where(.dark, .dark *)` and `:where(.light, .light *)` selectors for per-theme CSS variables. Theme switching via `Uniwind.setTheme()`.
+
+Both engines use the SAME semantic token names (`--primary`, `--foreground`, etc.) mapped through `@theme inline` — so your className never changes regardless of engine.
 
 ### Correct Pattern
 
@@ -688,11 +695,11 @@ When a design request cannot be satisfied with existing patterns:
 
 1. **Push back early** - Explain performance and maintenance implications
 2. **Propose alternatives** - Map to existing tokens or suggest new semantic tokens
-3. **Add to design system** - If truly needed, add token to `gluestack-ui-provider/config.ts`
+3. **Add to design system** - If truly needed, add the CSS custom property to `global.css` `@layer theme` and map it in `@theme inline`, then update `gluestack-ui-provider/config.ts`
 4. **Document exception** - If inline style is unavoidable, add JSDoc explaining why
 
 ## Reference
 
 - **Theme Configuration**: `@/components/ui/gluestack-ui-provider/config.ts`
-- **Tailwind Config**: `./tailwind.config.js`
-- **Documentation**: https://v4.gluestack.io/ui/docs
+- **CSS Theme**: `./global.css` (`@layer theme { … }` + `@theme inline { … }`) — Tailwind v4 is CSS-first; `tailwind.config.js` is deleted in v5
+- **Documentation**: https://gluestack.io/ui/docs

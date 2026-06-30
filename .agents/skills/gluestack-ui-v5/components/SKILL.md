@@ -1,11 +1,11 @@
 ---
-name: gluestack-ui-v4:components
-description: Component usage patterns for gluestack-ui v4 - covers component selection, props vs className, compound patterns, icons, and provider setup.
+name: gluestack-ui-v5:components
+description: Component usage patterns for gluestack-ui v5 - covers component selection, props vs className, compound patterns, icons, and provider setup (NativeWind v5 + UniWind).
 ---
 
-# Gluestack UI v4 - Component Patterns
+# Gluestack UI v5 — Component Patterns
 
-This sub-skill focuses on component usage, compound component patterns, icon handling, and provider setup for gluestack-ui v4.
+This sub-skill focuses on component usage, compound component patterns, icon handling, and provider setup for gluestack-ui v5 (NativeWind v5 / UniWind).
 
 ## Rule 1: Gluestack Components Over React Native Primitives
 
@@ -467,7 +467,7 @@ Use Gluestack's composable compound component pattern for complex components. Th
 2. **InputIcon requires InputSlot** - This is mandatory, not optional
 3. **Text content requires text sub-components** - ButtonText, AlertText, etc.
 4. **Icons require icon sub-components** - ButtonIcon, InputIcon (inside InputSlot), etc.
-5. **Check official docs** - Component structures may vary; always verify at `https://v4.gluestack.io/ui/docs/components/${componentName}/`
+5. **Check official docs** - Component structures may vary; always verify at `https://gluestack.io/ui/docs/components/${componentName}/`
 
 ### Common Mistakes to Avoid
 
@@ -497,11 +497,11 @@ Use Gluestack's composable compound component pattern for complex components. Th
 
 Gluestack-ui uses a copy-paste approach. Components are copied into your codebase, not installed as npm packages.
 
-**IMPORTANT**: Before copying or using any component, verify the latest usage patterns, sub-components, and API at `https://v4.gluestack.io/ui/docs/components/${componentName}/`
+**IMPORTANT**: Before copying or using any component, verify the latest usage patterns, sub-components, and API at `https://gluestack.io/ui/docs/components/${componentName}/`
 
 ### Correct Pattern
 
-1. **Check official v4 docs** - Visit `https://v4.gluestack.io/ui/docs/components/${componentName}/` to verify latest API and patterns
+1. **Check official v5 docs** - Visit `https://gluestack.io/ui/docs/components/${componentName}/` to verify latest API and patterns
 2. Copy component files from gluestack-ui into your `components/ui/` directory
 3. Import from your local components directory
 4. Customize as needed
@@ -536,6 +536,15 @@ export default function App() {
   );
 }
 ```
+
+### Theme Switching in v5
+
+v5 supports two styling engines with different theme-switching APIs:
+
+- **NativeWind v5**: Uses `Appearance.setColorScheme()` (same as v4). Theme tokens in `global.css` use `@media (prefers-color-scheme: dark)` + `.dark`/`.light` class selectors for web.
+- **UniWind**: Uses `Uniwind.setTheme('light' | 'dark' | 'system')`. Theme tokens use `:where(.dark, .dark *)` / `:where(.light, .light *)` selectors.
+
+After re-adding `GluestackUIProvider` via `npx gluestack-ui@alpha add gluestack-ui-provider`, the provider handles theme switching automatically for your chosen engine.
 
 ## Rule 11: Icon Usage
 
@@ -754,4 +763,4 @@ import Svg, { Path } from "react-native-svg";
 
 ## Reference
 
-**Always verify component usage at:** `https://v4.gluestack.io/ui/docs/components/${componentName}/`
+**Always verify component usage at:** `https://gluestack.io/ui/docs/components/${componentName}/`

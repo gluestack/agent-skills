@@ -1,11 +1,11 @@
 ---
-name: gluestack-ui-v4
-description: Enforces constrained, opinionated styling patterns for gluestack-ui v4. Main overview skill that coordinates specialized sub-skills for setup, components, styling, variants, performance, and validation.
+name: gluestack-ui-v5
+description: Enforces constrained, opinionated styling patterns for gluestack-ui v5 (Tailwind CSS v4, NativeWind v5 / UniWind). Main overview skill that coordinates specialized sub-skills for setup, components, styling, variants, performance, and validation.
 ---
 
-# Gluestack UI v4 Design Patterns
+# Gluestack UI v5 Design Patterns
 
-This skill enforces constrained, opinionated styling patterns for gluestack-ui v4 that reduce decision fatigue, improve performance, enable consistent theming, and limit the solution space to canonical patterns.
+This skill enforces constrained, opinionated styling patterns for gluestack-ui v5 (Tailwind CSS v4 with CSS-first configuration) that reduce decision fatigue, improve performance, enable consistent theming, and limit the solution space to canonical patterns. Supports both **NativeWind v5** (Expo + RN CLI) and **UniWind** (Expo only) styling engines.
 
 ## Core Principles
 
@@ -28,18 +28,18 @@ This skill enforces constrained, opinionated styling patterns for gluestack-ui v
 - Theming components
 - Copying components from gluestack-ui into your project
 
-**Before using any component, always verify the latest usage patterns at `https://v4.gluestack.io/ui/docs/components/${componentName}/`**
+**Before using any component, always verify the latest usage patterns at `https://gluestack.io/ui/docs/components/${componentName}/`**
 
 ## Sub-Skills Organization
 
 This skill is organized into specialized sub-skills for better token efficiency:
 
-### 1. gluestack-ui-v4:setup
+### 1. gluestack-ui-v5:setup
 **Use for:** Initial project setup, installation, configuration, adding components
 
 Covers:
-- Using the official CLI (`npx gluestack-ui@alpha init -y` and `npx gluestack-ui@alpha add --all -y`)
-- Project initialization for Expo, React Native CLI, and Next.js
+- Using the official CLI (`npx gluestack-ui@latest init` and `npx gluestack-ui@latest add --all`)
+- Project initialization for Expo and React Native CLI (Next.js support pending NativeWind v5 web)
 - Dependency management
 - Configuration files (tailwind, metro, babel, etc.)
 - GluestackUIProvider setup
@@ -48,7 +48,7 @@ Covers:
 
 **Invoke when:** Setting up gluestack-ui in a new or existing project, adding components via CLI, or troubleshooting installation issues
 
-### 2. gluestack-ui-v4:creating-components
+### 2. gluestack-ui-v5:creating-components
 **Use for:** Step-by-step component creation, templates, recipes
 
 Covers:
@@ -60,7 +60,7 @@ Covers:
 
 **Invoke when:** Creating new components from scratch or need component templates
 
-### 3. gluestack-ui-v4:components
+### 3. gluestack-ui-v5:components
 **Use for:** Component usage, compound patterns, icons, provider setup
 
 Covers:
@@ -72,7 +72,7 @@ Covers:
 
 **Invoke when:** Working with component structure, props, and composition
 
-### 4. gluestack-ui-v4:styling
+### 4. gluestack-ui-v5:styling
 **Use for:** Colors, spacing, dark mode, variants, className
 
 Covers:
@@ -84,7 +84,7 @@ Covers:
 
 **Invoke when:** Styling components, theming, or working with colors and spacing
 
-### 5. gluestack-ui-v4:variants
+### 5. gluestack-ui-v5:variants
 **Use for:** Creating custom variants for components, extending design system
 
 Covers:
@@ -98,7 +98,7 @@ Covers:
 
 **Invoke when:** Need to create custom variants for components, extend component styling options, or standardize repeated style patterns
 
-### 6. gluestack-ui-v4:performance
+### 6. gluestack-ui-v5:performance
 **Use for:** Cross-platform, performance optimization, best practices
 
 Covers:
@@ -112,7 +112,7 @@ Covers:
 
 **Invoke when:** Optimizing performance, ensuring cross-platform compatibility, or following React Native best practices
 
-### 7. gluestack-ui-v4:validation
+### 7. gluestack-ui-v5:validation
 **Use for:** Code review, anti-patterns, validation checklist
 
 Covers:
@@ -130,9 +130,10 @@ Covers:
 1. **Component props** - Use built-in props (size, variant, space)
 2. **className utilities** - Use existing Tailwind/NativeWind classes
 3. **Gluestack component variants** - Use built-in component variants
-4. **tva (Tailwind Variant Authority)** - Create reusable variant patterns
-5. **NativeWind interop** - Enable className on third-party components
-6. **Inline styles** - Only as absolute last resort with documented justification
+4. **CSS variables (`@theme inline`)** - Tailwind v4 auto-resolves tokens from `global.css` into utility classes
+5. **tva (Tailwind Variant Authority)** - Create reusable variant patterns
+6. **NativeWind interop** - Enable className on third-party components
+7. **Inline styles** - Only as absolute last resort with documented justification
 
 ### Common Patterns
 
@@ -178,22 +179,22 @@ Covers:
 
 ## Reference Documentation
 
-**IMPORTANT: Always verify component usage and patterns in the official v4 documentation before using components.**
+**IMPORTANT: Always verify component usage and patterns in the official v5 documentation before using components.**
 
-- **Component Docs**: `https://v4.gluestack.io/ui/docs/components/${componentName}/`
-- **Complete Documentation**: https://v4.gluestack.io/ui/docs
+- **Component Docs**: `https://gluestack.io/ui/docs/components/${componentName}/`
+- **Complete Documentation**: https://gluestack.io/ui/docs
 - **Import Path**: `@/components/ui/${componentName}`
 
 ## How to Use Sub-Skills
 
 When working on specific tasks, invoke the appropriate sub-skill for detailed guidance:
 
-- **Setting up gluestack-ui or adding components?** → Use `gluestack-ui-v4:setup`
-- **Creating a new component?** → Use `gluestack-ui-v4:creating-components`
-- **Component structure questions?** → Use `gluestack-ui-v4:components`
-- **Styling and theming questions?** → Use `gluestack-ui-v4:styling`
-- **Creating or extending component variants?** → Use `gluestack-ui-v4:variants`
-- **Performance or cross-platform questions?** → Use `gluestack-ui-v4:performance`
-- **Need to validate or review code?** → Use `gluestack-ui-v4:validation`
+- **Setting up gluestack-ui or adding components?** → Use `gluestack-ui-v5:setup`
+- **Creating a new component?** → Use `gluestack-ui-v5:creating-components`
+- **Component structure questions?** → Use `gluestack-ui-v5:components`
+- **Styling and theming questions?** → Use `gluestack-ui-v5:styling`
+- **Creating or extending component variants?** → Use `gluestack-ui-v5:variants`
+- **Performance or cross-platform questions?** → Use `gluestack-ui-v5:performance`
+- **Need to validate or review code?** → Use `gluestack-ui-v5:validation`
 
 Each sub-skill provides focused, detailed guidance on its specific domain while maintaining consistency with these core principles.

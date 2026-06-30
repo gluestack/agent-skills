@@ -29,10 +29,16 @@ When reviewing code, check for:
 
 ### Styling
 
-- [ ] All color values use semantic tokens (no raw colors)
+- [ ] **CRITICAL: All colors use ONLY semantic tokens** - NO exceptions:
+  - [ ] No `typography-*` tokens (use `text-foreground`, `text-muted-foreground`)
+  - [ ] No `neutral-*` tokens (use semantic equivalents)
+  - [ ] No `gray-*` or `slate-*` tokens (use semantic equivalents)
+  - [ ] No numbered colors: `red-500`, `blue-600`, `green-400`
+  - [ ] No arbitrary values: `[#3b82f6]`, `[#DC2626]`
+  - [ ] No opacity utilities (use alpha values: `/70`, `/90`)
+- [ ] All spacing values use the standard scale (no arbitrary values)
 - [ ] No inline styles where className can be used
-- [ ] All spacing values use the standard scale
-- [ ] Dark mode support using `dark:` prefix
+- [ ] Dark mode support using `dark:` prefix (semantic tokens ensure compatibility)
 - [ ] Variants defined using `tva` when needed
 - [ ] className properly merged in custom components
 
@@ -103,23 +109,72 @@ import { Button, ButtonText } from "@/components/ui/button";
 </Box>
 ```
 
-### ❌ Don't: Use Raw Color Values
+### ❌ Don't: Use Non-Semantic Color Tokens
+
+**STRICTLY PROHIBITED** - You MUST use ONLY semantic tokens for ALL colors.
 
 ```tsx
-// ❌ INCORRECT: Raw color values
-<Box className="bg-[#3b82f6]" />
-<Text className="text-red-500" />
-<Box style={{ backgroundColor: '#fff' }} />
+// ❌ PROHIBITED: Generic typography tokens
+<Text className="text-typography-900">Heading</Text>
+<Text className="text-typography-700">Body</Text>
+<Text className="text-typography-500">Muted</Text>
+
+// ❌ PROHIBITED: Neutral color tokens
+<Box className="bg-neutral-100">Card</Box>
+<Text className="text-neutral-600">Text</Text>
+<Box className="border-neutral-300">Border</Box>
+
+// ❌ PROHIBITED: Gray/Slate color scales
+<Box className="bg-gray-50">Background</Box>
+<Text className="text-gray-900">Content</Text>
+<Box className="border-gray-200">Border</Box>
+
+// ❌ PROHIBITED: Numbered color tokens
+<Box className="bg-blue-600">Primary</Box>
+<Text className="text-red-500">Error</Text>
+<Box className="border-green-400">Success</Box>
+
+// ❌ PROHIBITED: Arbitrary color values
+<Box className="bg-[#3b82f6]">Arbitrary</Box>
+<Text className="text-[#DC2626]">Error</Text>
+
+// ❌ PROHIBITED: Inline color styles
+<Box style={{ backgroundColor: '#fff' }}>White</Box>
+<Text style={{ color: 'red' }}>Error</Text>
+
+// ❌ PROHIBITED: Opacity utilities
+<Text className="text-black opacity-70">Muted</Text>
+<Box className="bg-blue-600 bg-opacity-90">Transparent</Box>
 ```
 
-**Why it's bad**: Breaks theming, dark mode won't work, inconsistent colors.
+**Why it's bad**:
+- ❌ Breaks theming and dark mode
+- ❌ Creates maintenance debt
+- ❌ Violates design system
+- ❌ Inconsistent colors across app
 
 **Correct approach**:
 ```tsx
-// ✅ CORRECT: Use semantic tokens
-<Box className="bg-primary" />
-<Text className="text-destructive" />
-<Box className="bg-background" />
+// ✅ CORRECT: Use ONLY semantic tokens
+<Text className="text-foreground">Heading</Text>
+<Text className="text-foreground">Body</Text>
+<Text className="text-muted-foreground">Muted</Text>
+
+<Box className="bg-muted">Card</Box>
+<Text className="text-muted-foreground">Text</Text>
+<Box className="border-border">Border</Box>
+
+<Box className="bg-background">Background</Box>
+<Text className="text-foreground">Content</Text>
+<Box className="border-border">Border</Box>
+
+<Box className="bg-primary">Primary</Box>
+<Text className="text-destructive">Error</Text>
+<Box className="border-primary">Success</Box>
+
+// ✅ CORRECT: Alpha values instead of opacity
+<Text className="text-foreground/70">Muted</Text>
+<Box className="bg-primary/90">Transparent</Box>
 ```
 
 ### ❌ Don't: Skip Sub-Components
@@ -323,6 +378,9 @@ animValue.value = withTiming(100, { duration: 300 });
 | Mistake | Impact | Correct Approach |
 |---------|--------|-----------------|
 | Using React Native primitives | Loses theming, accessibility, cross-platform support | Use Gluestack components |
+| **Using `typography-*`, `neutral-*`, `gray-*` tokens** | **Breaks theming and dark mode** | **Use ONLY semantic tokens** |
+| **Using numbered colors (`red-500`, `blue-600`)** | **Breaks theming and dark mode** | **Use semantic tokens** |
+| **Using opacity utilities (`opacity-70`)** | **Inconsistent transparency** | **Use alpha values (`/70`, `/90`)** |
 | Raw color values | Breaks theming and dark mode | Use semantic tokens |
 | Skipping sub-components | Components won't render correctly | Use proper compound components |
 | Inline styles for static values | Bypasses optimization, harder to maintain | Use className |
@@ -375,13 +433,34 @@ import { Box } from '@/components/ui/box';
 import { Text } from '@/components/ui/text';
 ```
 
+### 🔴 Critical: Using Non-Semantic Color Tokens
+
+```tsx
+// ❌ CRITICAL ERROR: Using prohibited tokens
+<Text className="text-typography-900">Heading</Text>
+<Box className="bg-neutral-100">Card</Box>
+<Text className="text-gray-700">Content</Text>
+<Box className="bg-blue-600">Primary</Box>
+
+// ✅ MUST FIX: Use ONLY semantic tokens
+<Text className="text-foreground">Heading</Text>
+<Box className="bg-muted">Card</Box>
+<Text className="text-foreground">Content</Text>
+<Box className="bg-primary">Primary</Box>
+```
+
 ## Code Review Guidelines
 
 ### High Priority (Must Have)
 
 1. **Component consistency** - All components use Gluestack wrappers
 2. **Compound components** - All sub-components used correctly
-3. **Semantic tokens** - No raw color values
+3. **CRITICAL: Semantic tokens ONLY** - Zero tolerance for:
+   - `typography-*`, `neutral-*`, `gray-*`, `slate-*` tokens
+   - Numbered colors: `red-500`, `blue-600`, `green-400`
+   - Arbitrary values: `[#3b82f6]`, `[#DC2626]`
+   - Opacity utilities: `opacity-70`, `bg-opacity-90`
+   - Must use ONLY: `text-foreground`, `bg-primary`, `border-border`, etc.
 4. **Component props** - Props used instead of className when available
 
 ### Medium Priority (Should Have)
@@ -464,7 +543,12 @@ Use this mental checklist when reviewing code:
 
 1. ✅ Gluestack components? (not React Native)
 2. ✅ Compound components correct? (ButtonText, InputSlot, etc.)
-3. ✅ Semantic tokens? (no raw colors)
+3. ✅ **CRITICAL: Semantic tokens ONLY?**
+   - ❌ No `typography-*`, `neutral-*`, `gray-*`, `slate-*`
+   - ❌ No numbered colors: `red-500`, `blue-600`
+   - ❌ No arbitrary values: `[#3b82f6]`
+   - ❌ No opacity utilities: `opacity-70`
+   - ✅ Only semantic: `text-foreground`, `bg-primary`, `border-border`
 4. ✅ Component props? (space, size, variant)
 5. ✅ Spacing scale? (no arbitrary values)
 6. ✅ TypeScript types? (all props typed)

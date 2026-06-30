@@ -677,6 +677,89 @@ export const ListItem = ({
 };
 ```
 
+## CRITICAL: Semantic Token Requirements
+
+**Before creating any component, understand these STRICT token requirements:**
+
+### ✅ ALLOWED Tokens (Semantic Only)
+
+Use ONLY these semantic token patterns:
+
+**Text Colors:**
+- `text-foreground` - Main text color
+- `text-muted-foreground` - Muted/secondary text
+- `text-card-foreground` - Text on card backgrounds
+- `text-primary`, `text-primary-foreground` - Primary brand colors
+- `text-secondary`, `text-secondary-foreground` - Secondary colors
+- `text-destructive` - Error states
+- `text-accent`, `text-accent-foreground` - Accent colors
+- With alpha: `text-foreground/70`, `text-primary/90`
+
+**Background Colors:**
+- `bg-background` - Main background
+- `bg-card` - Card backgrounds
+- `bg-muted` - Muted backgrounds
+- `bg-popover` - Popover/modal backgrounds
+- `bg-primary`, `bg-secondary`, `bg-destructive`, `bg-accent` - Action colors
+- With alpha: `bg-primary/10`, `bg-muted/50`
+
+**Border Colors:**
+- `border-border` - Standard borders
+- `border-input` - Input borders
+- `ring-ring` - Focus rings
+- With alpha: `border-border/50`, `border-primary/20`
+
+### ❌ PROHIBITED Tokens (NEVER Use These)
+
+**NEVER use these token patterns - they are STRICTLY PROHIBITED:**
+
+```tsx
+// ❌ PROHIBITED: Generic typography tokens
+text-typography-900
+text-typography-700
+text-typography-500
+
+// ❌ PROHIBITED: Neutral color tokens
+bg-neutral-100
+text-neutral-600
+border-neutral-300
+
+// ❌ PROHIBITED: Gray/Slate color scales
+bg-gray-50
+text-gray-900
+border-gray-200
+text-slate-700
+
+// ❌ PROHIBITED: Numbered color tokens
+bg-blue-600
+text-red-500
+border-green-400
+bg-indigo-500
+
+// ❌ PROHIBITED: Arbitrary values
+bg-[#3b82f6]
+text-[#DC2626]
+
+// ❌ PROHIBITED: Opacity utilities
+opacity-70
+bg-opacity-90
+text-opacity-80
+```
+
+### Why This Matters
+
+Using prohibited tokens will:
+- ❌ Break dark mode
+- ❌ Violate design system
+- ❌ Create maintenance debt
+- ❌ Fail code review
+
+Using semantic tokens will:
+- ✅ Work in light AND dark mode
+- ✅ Match design system
+- ✅ Be maintainable
+- ✅ Express intent clearly
+
 ## Best Practices Checklist
 
 When creating a component, verify:
@@ -694,11 +777,14 @@ When creating a component, verify:
 - [ ] Default values specified in function params
 
 ### Styling
-- [ ] Uses semantic tokens (bg-card, text-foreground, etc.)
-- [ ] Spacing uses scale values (p-4, m-2, etc.)
+- [ ] **CRITICAL: Uses ONLY semantic tokens** - NO `typography-*`, `neutral-*`, `gray-*`, `slate-*`, or numbered colors (`red-500`, `blue-600`)
+- [ ] All color tokens are semantic (text-foreground, bg-card, text-muted-foreground, etc.)
+- [ ] Alpha values used instead of opacity utilities (text-foreground/70 instead of opacity-70)
+- [ ] Spacing uses scale values (p-4, m-2, etc.) - no arbitrary values
 - [ ] Component props used (space, size, variant)
 - [ ] className prop for customization
 - [ ] Uses tva for variants (if needed)
+- [ ] Dark mode compatible (semantic tokens work in both themes)
 
 ### Props
 - [ ] Accepts className for overrides

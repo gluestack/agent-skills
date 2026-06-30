@@ -1,11 +1,11 @@
 ---
-name: gluestack-ui-v4:creating-components
-description: Step-by-step guide for creating components with gluestack-ui v4 - covers planning, structure, styling, TypeScript, and common component patterns.
+name: gluestack-ui-v5:creating-components
+description: Step-by-step guide for creating components with gluestack-ui v5 (Tailwind v4 CSS-first) - covers planning, structure, styling, TypeScript, and common component patterns.
 ---
 
-# Gluestack UI v4 - Creating Components
+# Gluestack UI v5 — Creating Components
 
-This sub-skill provides practical guidance for creating new components using gluestack-ui v4, from planning to implementation.
+This sub-skill provides practical guidance for creating new components using gluestack-ui v5 (Tailwind v4 CSS-first), from planning to implementation.
 
 ## Component Creation Workflow
 
@@ -17,7 +17,7 @@ Before writing code, answer these questions:
    - Form input, data display, navigation, layout, etc.
 
 2. **Which Gluestack components do I need?**
-   - Check official docs: `https://v4.gluestack.io/ui/docs/components/${componentName}/`
+   - Check official docs: `https://gluestack.io/ui/docs/components/${componentName}/`
    - Use Gluestack wrappers, not React Native primitives
 
 3. **Does it need compound components?**
@@ -41,7 +41,7 @@ Before writing code, answer these questions:
 
 ```bash
 # Visit official docs for the component
-https://v4.gluestack.io/ui/docs/components/${componentName}/
+https://gluestack.io/ui/docs/components/${componentName}/
 ```
 
 Check for:
@@ -872,6 +872,6 @@ export const Component = () => (
 
 ## Reference
 
-- **Component Documentation**: `https://v4.gluestack.io/ui/docs/components/${componentName}/`
-- **Complete Docs**: https://v4.gluestack.io/ui/docs
+- **Component Documentation**: `https://gluestack.io/ui/docs/components/${componentName}/`
+- **Complete Docs**: https://gluestack.io/ui/docs
 - **tva Documentation**: https://www.tailwind-variants.org/
