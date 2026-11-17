@@ -4,6 +4,10 @@ Agent skills for AI coding agents (Cursor, Claude Code, Cline, etc.). Skills are
 
 ## Available Skills
 
+### gluestack-patterns
+
+Builds Expo / React Native screens from [gluestack.io/patterns](https://gluestack.io/patterns): production-ready screens (auth, onboarding, paywalls, AI chat, commerce, finance, dashboards, settings and more) with a complete prompt, a shadcn-compatible registry and an MCP server (`https://gluestack.io/api/mcp`). Use when asked for a mobile screen or flow.
+
 ### gluestack-ui-v5
 
 Enforces constrained, opinionated styling patterns for [gluestack-ui v5](https://gluestack.io/): semantic tokens, component props over className, copy-paste philosophy, compound sub-components, and Tailwind CSS v4 (NativeWind v5 / UniWind). Use when building or refactoring UI with gluestack-ui v5.
